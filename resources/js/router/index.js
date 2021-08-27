@@ -2,33 +2,39 @@ import VueRouter from "vue-router";
 import store from "../store/index";
 
 //Components
-const Index     = () => import('../Index');
+const Index = () => import('../Index');
 const Dashboard = () => import('../pages/Dashboard');
-const Food      = () => import('../pages/Food');
-const User      = () => import('../pages/User');
-const Order     = () => import('../pages/Order');
+const Food = () => import('../pages/Food');
+const User = () => import('../pages/User');
+const Order = () => import('../pages/Order');
+const Register = () => import('../Register');
 
 //Routes
 const routes = [
     {
         path: '/',
-        component:Index,
+        component: Index,
         name: 'Index'
     },
     {
+        path: '/register',
+        component: Register,
+        name: 'Register'
+    },
+    {
         path: '/dashboard',
-        component:Dashboard,
-        meta: { requireAuth: true }
+        component: Dashboard,
+        meta: {requireAuth: true}
     },
     {
         path: '/food',
         component: Food,
-        meta: { requireAuth: true }
+        meta: {requireAuth: true}
     },
     {
         path: '/user',
         component: User,
-        meta: { requireAuth: true }
+        meta: {requireAuth: true}
     },
     {
         path: '/order',
@@ -42,7 +48,7 @@ const router = new VueRouter({
 });
 
 // Verificando si hay token en el estado
-router.beforeEach((to, from, next)=>{
+router.beforeEach((to, from, next) => {
     let token = localStorage.getItem('token');
 
     const protectedRoute = to.matched.some(record => record.meta.requireAuth)

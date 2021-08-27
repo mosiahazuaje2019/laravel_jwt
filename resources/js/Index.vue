@@ -19,6 +19,7 @@
         <div class="p-field p-grid">
             <div class="p-col">
                 <Button type="submit" @click="login(user)" label="Acceder" />
+                <Button type="button" @click="register()" label="Registrarse" />
             </div>
         </div>
     </div>
@@ -38,7 +39,10 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['login'])
+        ...mapActions(['login']),
+        register() {
+            this.$router.push('/register');
+        }
     }
 }
 </script>

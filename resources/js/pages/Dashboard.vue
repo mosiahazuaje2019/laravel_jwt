@@ -7,7 +7,9 @@
                 <template #title>
                     <h6><User></User></h6>
                 </template>
-                <template #content></template>
+                <template #content>
+                    <Button @click="logOff()" label="Salir" class="p-button-danger"></Button>
+                </template>
                 <template #footer></template>
             </Card>
         </div>
@@ -32,7 +34,12 @@ export default {
         ...mapState(['token'])
     },
     methods: {
-        ...mapActions(['dashboard','getToken'])
+        ...mapActions(['dashboard','getToken']),
+        logOff() {
+            localStorage.removeItem('token')
+            localStorage.removeItem('user_id')
+            this.$router.push('/')
+        }
     },
     created() {
         if(this.token === null) {

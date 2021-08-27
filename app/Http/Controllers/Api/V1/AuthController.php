@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -13,7 +19,27 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
+    public function register(Request $request): JsonResponse
+    {
+        $request->validate([
+            "name" => "required",
+            "lastname" => "required",
+            "email" => "required|email",
+            "password" => ["required", Password::default()]
+        ]);
+
+        User::query()->create([
+            "name" => $request->name,
+            "lastname" => $request->lastname,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
+            "remember_token" => Str::random(10)
+        ]);
+
+        return response()->json(true);
     }
 
     /**
@@ -25,7 +51,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -67,7 +93,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
