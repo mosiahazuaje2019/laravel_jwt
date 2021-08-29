@@ -1,13 +1,15 @@
 {
     "private": true,
     "scripts": {
+        "start": "npm run prod",
         "dev": "npm run development",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "postinstall": "npm run prod && php artisan jwt:secret && php artisan cache:clear && php artisan config:clear"
     },
     "devDependencies": {
         "axios": "^0.19",

@@ -8,12 +8,12 @@
         </div>
         <div class="p-field p-grid">
             <div class="p-col">
-                <InputText placeholder="Ingrese Email" v-model="user.email" class="p-inputtext-filled w-100" />
+                <InputText placeholder="Ingrese Email" autocomplete="email" v-model="user.email" class="p-inputtext-filled w-100" />
             </div>
         </div>
         <div class="p-field p-grid">
             <div class="p-col">
-                <Password placeholder="Ingrese contraseña" v-model="user.password" />
+                <InputText v-on:keyup.enter="login(user)" type="password" placeholder="Ingrese contraseña" v-model="user.password" />
             </div>
         </div>
         <div class="p-field p-grid">
