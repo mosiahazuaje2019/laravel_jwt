@@ -14,16 +14,16 @@ const actions = {};
 
 // mutations
 const mutations = {
-    getUser(state) {
+    async getUser(state) {
         let token = localStorage.getItem('token');
-        axios.get('/api/v1/auth/me', {
+        await axios.get('/api/v1/auth/me', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
             .then((res) => {
                 state.users = res.data;
-                localStorage.setItem('user_id', res.data.id)
+                //localStorage.setItem('user_id', res.data.id)
             });
     }
 };

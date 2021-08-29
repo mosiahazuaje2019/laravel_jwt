@@ -11,6 +11,7 @@
                     <img :src="slotProps.data.food.uri" class="product-image" width="70" height="70" />
                 </template>
             </Column>
+            <Column field="food.description" header="Descripcion"></Column>
             <Column>
                 <template #body="slotProps">
                     <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="deleteOrder(slotProps.data.id)"  />
@@ -50,6 +51,7 @@ export default {
     mounted() {
         this.token = localStorage.getItem('token');
         this.user_id = localStorage.getItem('user_id');
+
         this.getList();
 
         EventBus.$root.$on('food_reload', () => {
@@ -63,8 +65,8 @@ export default {
         })
     },
     methods: {
-        getList() {
-            axios.get(`/api/v1/auth/getorder/${this.user_id}`, {
+        async getList() {
+            await axios.get(`/api/v1/auth/getorder/${this.user_id}`, {
                 headers: {
                     'Authorization': `Bearer ${this.token}`
                 }

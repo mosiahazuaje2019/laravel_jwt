@@ -12,8 +12,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         token: null,
+        user_id:null,
         user: {
-            name: ''
+            id: ''
         }
     },
     mutations: {
@@ -21,10 +22,10 @@ export default new Vuex.Store({
             state.token = payload
         },
         setUser(state, payload) {
-            state.user.name = payload.name,
-                state.user.email = payload.email
+            state.user.id = payload.id
         }
     },
+
     actions: {
         async login({commit}, user) {
             try {
@@ -33,10 +34,10 @@ export default new Vuex.Store({
                         'Content-Type': 'application/json',
                     },
                 })
-
                 const userDB = res.data
                 commit('setToken', userDB.access_token)
                 localStorage.setItem('token', userDB.access_token)
+                localStorage.setItem('user_id', userDB.id)
                 await router.push('dashboard');
             } catch (error) {
                 console.log('Error', error)
@@ -57,9 +58,9 @@ export default new Vuex.Store({
                         'auth_token': auth_token
                     },
                 })
-
                 const userDB = res.data
-                commit('setUser', {name: userDB.user.name})
+                commit('setUser', {name: userDB.user.id})
+
             } catch (error) {
                 console.log('Error', error)
             }
